@@ -11,36 +11,36 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import scipy.signal as signal
 
-# 生成高斯算子的函数
-def Gauss_func(x,y,sigma=1):
+# to generate gauss operator
+def gauss_func(x,y,sigma=1):
     return 100*(1/(2*np.pi*sigma))*np.exp(-((x-2)**2+(y-2)**2)/(2.0*sigma**2))
 
-# 生成均值算子的函数
-def Mean_func(x,y):
+# the method to generate mean operator
+def mean_func(x,y):
     return 1/25
-# 生成标准差为2的5*5高斯算子
-Gauss_operator = np.fromfunction(Gauss_func,(5,5),sigma= 0.2)
 
-# 生成均值平滑算子，5*5
-Mean_operator = 1/25*np.ones((5,5))
+# to generate gauss operator with std = 2, size = 5*5
+gauss_operator = np.fromfunction(Gauss_func,(5,5),sigma= 0.2)
 
-# 打开图像并转化成灰度图像
+# to get mean operator 
+mean_operator = 1/25*np.ones((5,5))
+
 image = Image.open("1.jpg").convert("L")
 image_array = np.array(image)
 
-# 图像与高斯算子进行卷积
-image2 = signal.convolve2d(image_array,Gauss_operator,mode="same")
+# Gauss kernel convolution for image
+image2 = signal.convolve2d(image_array,gauss_operator,mode="same")
 
-# 图像与均值算子进行卷积
-image3 = signal.convolve2d(image_array,Mean_operator,mode = "same")
+# mean operator convolution for image
+image3 = signal.convolve2d(image_array,mean_operator,mode = "same")
 
-# 结果转化到0-255
+# transfer result to 0-255
 image2 = (image2/float(image2.max()))*255
 image3 = (image3/float(image3.max()))*255     
          
          
 
-# 显示图像
+# Display image
 #plt.subplot(2,1,1)
 '''
 plt.figure("1")
